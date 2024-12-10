@@ -5,7 +5,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pjj65"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85bmr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5rl2"]
 albedo_texture = ExtResource("2_h62rp")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_7usf5"]
@@ -18,7 +18,7 @@ shape = SubResource("CapsuleShape3D_pjj65")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-0.991199, 0, -0.132377, 0, 1, 0, 0.132377, 0, -0.991199, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_85bmr")
+material_override = SubResource("StandardMaterial3D_x5rl2")
 mesh = SubResource("CapsuleMesh_7usf5")
 
 [node name="LightmapGI" type="LightmapGI" parent="."]
