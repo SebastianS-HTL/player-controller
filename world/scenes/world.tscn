@@ -18,10 +18,7 @@ ambient_light_source = 3
 [node name="world" type="Node3D"]
 
 [node name="playerbody" parent="." instance=ExtResource("1_usqua")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67194, 0)
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -0.0164499, 3.03982, 7.60815)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67194, 0.162313)
 
 [node name="platform" parent="." instance=ExtResource("2_opplc")]
 
@@ -29,5 +26,5 @@ transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, -0.01644
 environment = SubResource("Environment_1cl1u")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.946142, -0.158069, 0.282542, 1.0773e-08, 0.872709, 0.48824, -0.323752, -0.461945, 0.825707, 7.65636, 0, 5.154)
+transform = Transform3D(0.92311, -0.187747, 0.335589, 1.51872e-08, 0.872709, 0.48824, -0.384537, -0.450699, 0.805606, 7.65636, 0, 5.154)
 shadow_enabled = true

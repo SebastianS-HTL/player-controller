@@ -1,20 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cspwugujnubo6"]
+[gd_scene load_steps=6 format=3 uid="uid://cspwugujnubo6"]
 
 [ext_resource type="Script" path="res://player/scenes/playerbody.gd" id="1_vrcs8"]
 [ext_resource type="Texture2D" uid="uid://dl5gdn1eq11js" path="res://textures/3.jpg" id="2_h62rp"]
-[ext_resource type="Texture2D" uid="uid://bc8nomic4bd5y" path="res://textures/WhatsApp Bild 2024-06-20 um 20.01.56_bf0f60b2.jpg" id="3_1nr7a"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pjj65"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85bmr"]
 albedo_texture = ExtResource("2_h62rp")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5xdo2"]
-albedo_texture = ExtResource("3_1nr7a")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_k0t0p"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_5xdo2")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7usf5"]
 
 [node name="playerbody" type="CharacterBody3D"]
 script = ExtResource("1_vrcs8")
@@ -25,6 +19,9 @@ shape = SubResource("CapsuleShape3D_pjj65")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-0.991199, 0, -0.132377, 0, 1, 0, 0.132377, 0, -0.991199, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_85bmr")
-mesh = SubResource("CapsuleMesh_k0t0p")
+mesh = SubResource("CapsuleMesh_7usf5")
 
 [node name="LightmapGI" type="LightmapGI" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.783908, 0)
