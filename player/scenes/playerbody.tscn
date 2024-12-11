@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://player/scripts/playerbody.gd" id="1_144kg"]
 [ext_resource type="Texture2D" uid="uid://dl5gdn1eq11js" path="res://textures/3.jpg" id="2_h62rp"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pjj65"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rf2iv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4hunf"]
 albedo_texture = ExtResource("2_h62rp")
@@ -12,9 +12,11 @@ albedo_texture = ExtResource("2_h62rp")
 
 [node name="playerbody" type="CharacterBody3D"]
 script = ExtResource("1_144kg")
+crouchSpeed = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_pjj65")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_rf2iv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
 transform = Transform3D(-0.991199, 0, -0.132377, 0, 1, 0, 0.132377, 0, -0.991199, 0, 0, 0)
@@ -24,4 +26,4 @@ mesh = SubResource("CapsuleMesh_7usf5")
 [node name="LightmapGI" type="LightmapGI" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.633177, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69835, 0)

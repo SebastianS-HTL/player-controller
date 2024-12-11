@@ -5,7 +5,10 @@ const JUMP_VELOCITY = 4.5
 var sensitivity = 0 #editable from outside
 
 var can_slide = true
+var can_gp = true
+
 var crouched = false
+var groundPounding = false
 
 @onready var camera = $Camera3D
 var mouse_delta = Vector2.ZERO
@@ -34,10 +37,12 @@ func handle_mouse_look():
 	# Reset mouse_delta to avoid repeating the motion
 	mouse_delta = Vector2.ZERO
 
-func crouch(delta):
-	delta *= 4
-	const camUp = 0.633
-	const camDown = 0.133
+@export var crouchSpeed = 1
+
+func crouch(delta): #transitioning between crouched and uncrouched
+	delta *= crouchSpeed
+	const camUp = 1.633
+	const camDown = 0.633
 	const targetUp = 1
 	const targetDown = 0.5
 	
@@ -48,7 +53,7 @@ func crouch(delta):
 		if playerhitbox.get_scale() < Vector3(targetDown,targetDown,targetDown):
 			playerhitbox.set_scale(Vector3(targetDown,targetDown,targetDown))
 		
-		camera.position.y = (camera.position.y - delta)
+		camera.position.y = (camera.position.y - delta*2)
 		if camera.position.y < camDown:
 			camera.position.y = camDown
 	else:
@@ -56,9 +61,11 @@ func crouch(delta):
 		if playerhitbox.get_scale() > Vector3(targetUp,targetUp,targetUp):
 			playerhitbox.set_scale(Vector3(targetUp,targetUp,targetUp))
 		
-		camera.position.y = (camera.position.y + delta)
+		camera.position.y = (camera.position.y + delta*2)
 		if camera.position.y > camUp:
 			camera.position.y = camUp
+	
+	get_child(0).position.y = get_child(0).get_scale().y
 
 func _physics_process(delta): # "main"
 	#Engine.max_fps = 30
