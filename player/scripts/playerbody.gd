@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
-var sensitivity = 0.1 #editable from outside
+var sensitivity = 0 #editable from outside
 
 @onready var camera = $Camera3D
 var mouse_delta = Vector2.ZERO
@@ -31,7 +31,7 @@ func handle_mouse_look():
 	# Reset mouse_delta to avoid repeating the motion
 	mouse_delta = Vector2.ZERO
 
-func _physics_process(delta):
+func _physics_process(delta): # "main"
 	# Add gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -54,3 +54,7 @@ func _physics_process(delta):
 		velocity.z = 0
 
 	move_and_slide()
+
+func _on_deathborder_body_shape_entered(body_rid, body, body_shape_index, local_shape_index): #reset position (respawn) when hitting a death barrier
+	if body.position == position:
+		position = Vector3(0,0,0)

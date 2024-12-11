@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://tmldw1ul5axs"]
 
 [ext_resource type="Script" path="res://pause menu/scripts/pausemenu.gd" id="1_wysa8"]
-[ext_resource type="Script" path="res://pause menu/scenes/sensitivity_slider.gd" id="2_jlrnl"]
+[ext_resource type="Script" path="res://pause menu/scripts/sensitivity_slider.gd" id="2_63iid"]
 
 [node name="Pausemenu" type="Control"]
 process_mode = 3
@@ -45,10 +45,10 @@ offset_top = 233.0
 offset_right = 665.0
 offset_bottom = 249.0
 min_value = 0.1
-max_value = 2.0
+max_value = 1.0
 step = 0.01
-value = 0.1
-script = ExtResource("2_jlrnl")
+value = 0.2
+script = ExtResource("2_63iid")
 
 [node name="sensitivity_read" type="Label" parent="."]
 offset_left = 402.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ccyk6o8xwgvom"]
+[gd_scene load_steps=9 format=3 uid="uid://ccyk6o8xwgvom"]
 
 [ext_resource type="PackedScene" uid="uid://cspwugujnubo6" path="res://player/scenes/playerbody.tscn" id="1_usqua"]
 [ext_resource type="PackedScene" uid="uid://un86sjtic6jc" path="res://platform/scenes/platform.tscn" id="2_opplc"]
@@ -16,6 +16,9 @@ sky_material = SubResource("PanoramaSkyMaterial_qirl3")
 sky = SubResource("Sky_wt4a2")
 ambient_light_source = 3
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_att35"]
+size = Vector3(100, 1, 100)
+
 [node name="world" type="Node3D"]
 
 [node name="playerbody" parent="." instance=ExtResource("1_usqua")]
@@ -27,11 +30,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67194, 0.162313)
 environment = SubResource("Environment_1cl1u")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.92311, -0.187747, 0.335589, 1.51872e-08, 0.872709, 0.48824, -0.384537, -0.450699, 0.805606, 7.65636, 0, 5.154)
+transform = Transform3D(0.00654504, -0.48823, 0.87269, 1.51872e-08, 0.872709, 0.48824, -0.999979, -0.00319552, 0.00571197, 16.9722, 0, 5.154)
 shadow_enabled = true
 shadow_opacity = 0.71
 shadow_blur = 0.0
 
+[node name="deathborder" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="deathborder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.27135, -0.499502)
+shape = SubResource("BoxShape3D_att35")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Pausemenu" parent="CanvasLayer" instance=ExtResource("3_rnr10")]
+
+[connection signal="body_shape_entered" from="deathborder" to="playerbody" method="_on_deathborder_body_shape_entered"]
