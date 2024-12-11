@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://tmldw1ul5axs"]
+[gd_scene load_steps=3 format=3 uid="uid://tmldw1ul5axs"]
 
 [ext_resource type="Script" path="res://pause menu/scripts/pausemenu.gd" id="1_wysa8"]
+[ext_resource type="Script" path="res://pause menu/scenes/sensitivity_slider.gd" id="2_jlrnl"]
 
 [node name="Pausemenu" type="Control"]
 process_mode = 3
@@ -15,4 +16,46 @@ script = ExtResource("1_wysa8")
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
-color = Color(0, 0, 0, 0.203922)
+color = Color(0, 0, 0, 0.333333)
+
+[node name="PAUSED" type="Label" parent="."]
+layout_mode = 0
+offset_left = 459.0
+offset_top = 81.0
+offset_right = 694.0
+offset_bottom = 165.0
+theme_override_font_sizes/font_size = 61
+text = "Paused"
+uppercase = true
+
+[node name="sensitivity_header" type="Label" parent="."]
+offset_left = 402.0
+offset_top = 203.0
+offset_right = 750.0
+offset_bottom = 239.0
+theme_override_font_sizes/font_size = 26
+text = "Sensitivity"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="sensitivity_slider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 486.0
+offset_top = 233.0
+offset_right = 665.0
+offset_bottom = 249.0
+min_value = 0.1
+max_value = 2.0
+step = 0.01
+value = 0.1
+script = ExtResource("2_jlrnl")
+
+[node name="sensitivity_read" type="Label" parent="."]
+offset_left = 402.0
+offset_top = 241.0
+offset_right = 750.0
+offset_bottom = 268.0
+theme_override_font_sizes/font_size = 19
+text = "Sensitivity"
+horizontal_alignment = 1
+uppercase = true

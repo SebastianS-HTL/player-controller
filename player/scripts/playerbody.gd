@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
-const SENSITIVITY = 0.1
+var sensitivity = 0.1 #editable from outside
 
 @onready var camera = $Camera3D
 var mouse_delta = Vector2.ZERO
@@ -19,8 +19,8 @@ func _process(delta):
 
 func handle_mouse_look():
 	# Apply mouse movement to camera and body
-	var rotation_x = -mouse_delta.y * SENSITIVITY
-	var rotation_y = -mouse_delta.x * SENSITIVITY
+	var rotation_x = -mouse_delta.y * sensitivity
+	var rotation_y = -mouse_delta.x * sensitivity
 
 	# Clamp vertical rotation to prevent flipping
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x + rotation_x, -90, 90)
