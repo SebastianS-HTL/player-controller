@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://ccyk6o8xwgvom"]
+[gd_scene load_steps=10 format=3 uid="uid://ccyk6o8xwgvom"]
 
 [ext_resource type="PackedScene" uid="uid://cspwugujnubo6" path="res://player/scenes/playerbody.tscn" id="1_usqua"]
 [ext_resource type="PackedScene" uid="uid://un86sjtic6jc" path="res://platform/scenes/platform.tscn" id="2_opplc"]
+[ext_resource type="Script" path="res://world/scripts/fps.gd" id="3_qja8q"]
 [ext_resource type="PackedScene" uid="uid://tmldw1ul5axs" path="res://pause menu/scenes/pausemenu.tscn" id="3_rnr10"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_dhx0n"]
@@ -30,7 +31,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67194, 0.162313)
 environment = SubResource("Environment_1cl1u")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.00654504, -0.48823, 0.87269, 1.51872e-08, 0.872709, 0.48824, -0.999979, -0.00319552, 0.00571197, 16.9722, 0, 5.154)
+transform = Transform3D(-0.686898, -0.459003, 0.56346, -0.0868728, 0.82161, 0.563391, -0.721543, 0.338043, -0.604238, 16.9722, 0, -1.49342)
 shadow_enabled = true
 shadow_opacity = 0.71
 shadow_blur = 0.0
@@ -40,6 +41,12 @@ shadow_blur = 0.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="deathborder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.27135, -0.499502)
 shape = SubResource("BoxShape3D_att35")
+
+[node name="FPS" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "fps:"
+script = ExtResource("3_qja8q")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

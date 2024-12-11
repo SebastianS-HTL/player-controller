@@ -16,7 +16,7 @@ script = ExtResource("1_144kg")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_pjj65")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
 transform = Transform3D(-0.991199, 0, -0.132377, 0, 1, 0, 0.132377, 0, -0.991199, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_4hunf")
 mesh = SubResource("CapsuleMesh_7usf5")
@@ -24,4 +24,4 @@ mesh = SubResource("CapsuleMesh_7usf5")
 [node name="LightmapGI" type="LightmapGI" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.783908, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.633177, 0)
