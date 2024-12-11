@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ccyk6o8xwgvom"]
+[gd_scene load_steps=8 format=3 uid="uid://ccyk6o8xwgvom"]
 
 [ext_resource type="PackedScene" uid="uid://cspwugujnubo6" path="res://player/scenes/playerbody.tscn" id="1_usqua"]
 [ext_resource type="PackedScene" uid="uid://un86sjtic6jc" path="res://platform/scenes/platform.tscn" id="2_opplc"]
+[ext_resource type="PackedScene" uid="uid://tmldw1ul5axs" path="res://pause menu/scenes/pausemenu.tscn" id="3_rnr10"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_dhx0n"]
 
@@ -30,3 +31,7 @@ transform = Transform3D(0.92311, -0.187747, 0.335589, 1.51872e-08, 0.872709, 0.4
 shadow_enabled = true
 shadow_opacity = 0.71
 shadow_blur = 0.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pausemenu" parent="CanvasLayer" instance=ExtResource("3_rnr10")]

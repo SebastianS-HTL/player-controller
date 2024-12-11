@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://tmldw1ul5axs"]
+
+[ext_resource type="Script" path="res://pause menu/scripts/pausemenu.gd" id="1_wysa8"]
+
+[node name="Pausemenu" type="Control"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_wysa8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.203922)
