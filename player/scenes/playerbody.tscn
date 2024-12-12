@@ -23,7 +23,5 @@ transform = Transform3D(-0.991199, 0, -0.132377, 0, 1, 0, 0.132377, 0, -0.991199
 material_override = SubResource("StandardMaterial3D_4hunf")
 mesh = SubResource("CapsuleMesh_7usf5")
 
-[node name="LightmapGI" type="LightmapGI" parent="."]
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69835, 0)
