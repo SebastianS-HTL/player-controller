@@ -48,7 +48,7 @@ func slide():
 	if restrictedMovement != Vector3(velocity.x,0,velocity.z):
 		restrictedMovement = Vector3(velocity.x,0,velocity.z)
 	
-	if Input.is_action_just_released("ctrl"):
+	if Input.is_action_just_released("ctrl") or Input.is_action_just_pressed("ui_accept"):
 		restrictedMovement = Vector3(0,0,0)
 		sliding = false
 		crouched = false
@@ -63,7 +63,6 @@ func groundPound():
 			if not Input.is_action_pressed("ui_up") and not Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_down"):
 				crouched = true
 			else:
-				print("dbug")
 				sliding = true
 		else:
 			crouched = false
