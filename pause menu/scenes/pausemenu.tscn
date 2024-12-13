@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://tmldw1ul5axs"]
+[gd_scene load_steps=4 format=3 uid="uid://tmldw1ul5axs"]
 
 [ext_resource type="Script" path="res://pause menu/scripts/pausemenu.gd" id="1_wysa8"]
 [ext_resource type="Script" path="res://pause menu/scripts/sensitivity_slider.gd" id="2_63iid"]
+[ext_resource type="Script" path="res://pause menu/scripts/fov_slider.gd" id="3_5hrir"]
 
 [node name="Pausemenu" type="Control"]
 process_mode = 3
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -91,5 +91,60 @@ offset_bottom = 29.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 19
 text = "Sensitivity"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="FOV_header" type="Label" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.433
+anchor_right = 0.5
+anchor_bottom = 0.433
+offset_left = -74.0
+offset_top = 54.0
+offset_right = 74.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 26
+text = "FOV
+"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="FOV_slider" type="HSlider" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.451
+anchor_right = 0.55
+anchor_bottom = 0.451
+offset_top = 76.0
+offset_bottom = 92.0
+min_value = 2.0
+max_value = 170.0
+step = 0.01
+value = 90.0
+script = ExtResource("3_5hrir")
+
+[node name="FOV_read" type="Label" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.464
+anchor_right = 0.5
+anchor_bottom = 0.464
+offset_left = -54.5
+offset_top = 78.0
+offset_right = 54.5
+offset_bottom = 105.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 19
+text = "FOV
+"
 horizontal_alignment = 1
 uppercase = true
