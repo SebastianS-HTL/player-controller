@@ -14,6 +14,7 @@ var crouched = false
 var sliding = false
 var groundPounding = false
 
+var direction
 @onready var camera = $Camera3D
 var mouse_delta = Vector2.ZERO
 
@@ -43,16 +44,6 @@ func handle_mouse_look():
 	
 @export var crouchSpeed = 1
 
-func slide():
-	crouched = true
-	if restrictedMovement != Vector3(velocity.x,0,velocity.z):
-		restrictedMovement = Vector3(velocity.x,0,velocity.z)
-	
-	if Input.is_action_just_released("ctrl") or Input.is_action_just_pressed("ui_accept"):
-		restrictedMovement = Vector3(0,0,0)
-		sliding = false
-		crouched = false
-
 func groundPound():
 	crouched = true
 	if restrictedMovement != Vector3(0,groundPoundSpeed,0):
@@ -76,6 +67,10 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	const camDown = 0.633
 	const targetUp = 1
 	const targetDown = 0.5
+	
+	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch or Input.is_action_just_pressed("ui_accept"):
+		crouched = false
+		sliding = false
 	
 	var playerhitbox = get_child(0)
 	
@@ -104,21 +99,14 @@ func _physics_process(delta): # "main"
 	# check for crouch
 	if Input.is_action_just_pressed("ctrl"):
 		if is_on_floor():
-			if velocity == Vector3(0,velocity.y,0):
-				if can_crouch:
-					crouched = true
-			else:
+			if can_crouch:
+				crouched = true
+			
+			if velocity != Vector3(0,velocity.y,0) and can_slide:
 				sliding = true
 		else:
 			if can_gp:
 				groundPounding = true
-	
-	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch:
-		crouched = false
-	
-	# trigger slide when needed
-	if sliding:
-		slide()
 	
 	# trigger groundpound when needed
 	if groundPounding:
@@ -137,7 +125,7 @@ func _physics_process(delta): # "main"
 
 	# Get the input direction and handle movement
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	if direction != Vector3.ZERO:
 		# Move in the given direction
