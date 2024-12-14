@@ -1,0 +1,1 @@
+sliding could be restrictive in a direction, but slowly adjusting to your actual input, like sliding forewards, looking to the side and the slide slowly changing direction (speed customizable ofc.)

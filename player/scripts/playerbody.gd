@@ -2,7 +2,9 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
-var sensitivity = 0 #editable from outside
+var slideJumpExtraVelocity = 1 
+var SJEVincrease = 0.3
+var sensitivity = 0 # editable from outside
 var restrictedMovement = Vector3(0,0,0)
 const groundPoundSpeed = -20
 
@@ -62,7 +64,6 @@ func groundPound():
 		groundPounding = false
 
 func crouch(delta): #transitioning between crouched and uncrouched
-	print(direction)
 	print("(" + str(direction.x * SPEED) + ", 0, " + str(direction.z * SPEED) + ")")
 	print(velocity)
 	print("-------------")
@@ -73,6 +74,9 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	const targetDown = 0.5
 	
 	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch or Input.is_action_just_pressed("ui_accept"):
+		if Input.is_action_just_pressed("ui_accept"):
+			slideJumpExtraVelocity += SJEVincrease
+		
 		crouched = false
 		sliding = false
 	
@@ -99,6 +103,9 @@ func crouch(delta): #transitioning between crouched and uncrouched
 
 func _physics_process(delta): # "main"
 	#Engine.max_fps = 30 # in case you think thats needed
+	
+	# decrease slide extra speed
+	if is_on_floor()
 	
 	# check for crouch
 	if Input.is_action_just_pressed("ctrl"):
@@ -133,8 +140,8 @@ func _physics_process(delta): # "main"
 
 	if direction != Vector3.ZERO:
 		# Move in the given direction
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = direction.x * SPEED * slideJumpExtraVelocity
+		velocity.z = direction.z * SPEED * slideJumpExtraVelocity
 	else:
 		# Stop instantly when no input is given
 		velocity.x = 0
