@@ -6,6 +6,4 @@ func _process(delta):
 	var player = get_parent().get_parent().get_parent().get_child(0)
 	var camera = player.get_child(1)
 	output.set_text(str(value))
-	print(value)
-	print(camera)
 	camera.set_fov(value)

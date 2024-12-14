@@ -16,6 +16,7 @@ sky_material = SubResource("PanoramaSkyMaterial_qirl3")
 [sub_resource type="Environment" id="Environment_1cl1u"]
 sky = SubResource("Sky_wt4a2")
 ambient_light_source = 3
+volumetric_fog_density = 0.2316
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_att35"]
 size = Vector3(100, 1, 100)
@@ -33,8 +34,6 @@ environment = SubResource("Environment_1cl1u")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.686898, -0.459003, 0.56346, -0.0868728, 0.82161, 0.563391, -0.721543, 0.338043, -0.604238, 16.9722, 0, -1.49342)
 shadow_enabled = true
-shadow_opacity = 0.71
-shadow_blur = 0.0
 
 [node name="deathborder" type="Area3D" parent="."]
 

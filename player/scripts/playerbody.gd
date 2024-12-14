@@ -14,7 +14,7 @@ var crouched = false
 var sliding = false
 var groundPounding = false
 
-var direction
+var direction = Vector3(0,0,0)
 @onready var camera = $Camera3D
 var mouse_delta = Vector2.ZERO
 
@@ -41,7 +41,7 @@ func handle_mouse_look():
 
 	# Reset mouse_delta to avoid repeating the motion
 	mouse_delta = Vector2.ZERO
-	
+
 @export var crouchSpeed = 1
 
 func groundPound():
@@ -62,6 +62,10 @@ func groundPound():
 		groundPounding = false
 
 func crouch(delta): #transitioning between crouched and uncrouched
+	print(direction)
+	print("(" + str(direction.x * SPEED) + ", 0, " + str(direction.z * SPEED) + ")")
+	print(velocity)
+	print("-------------")
 	delta *= crouchSpeed
 	const camUp = 1.633
 	const camDown = 0.633
