@@ -3,10 +3,12 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var slideJumpExtraVelocity = 1 
-var SJEVincrease = 0.3
+var SJEVincrease = 0.2
+var SJEVdecrease = 1
+var SJEVdecreaseL = 0.5
 var sensitivity = 0 # editable from outside
 var restrictedMovement = Vector3(0,0,0)
-const groundPoundSpeed = -20
+const groundPoundSpeed = -30
 
 var can_slide = true
 var can_crouch = true
@@ -64,16 +66,16 @@ func groundPound():
 		groundPounding = false
 
 func crouch(delta): #transitioning between crouched and uncrouched
-	print("(" + str(direction.x * SPEED) + ", 0, " + str(direction.z * SPEED) + ")")
-	print(velocity)
-	print("-------------")
+	#print("(" + str(direction.x * SPEED) + ", 0, " + str(direction.z * SPEED) + ")")
+	#print(velocity)
+	#print("-------------")
 	delta *= crouchSpeed
 	const camUp = 1.633
 	const camDown = 0.633
 	const targetUp = 1
 	const targetDown = 0.5
 	
-	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch or Input.is_action_just_pressed("ui_accept"):
+	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch or (Input.is_action_pressed("ctrl") and Input.is_action_just_pressed("ui_accept")):
 		if Input.is_action_just_pressed("ui_accept"):
 			slideJumpExtraVelocity += SJEVincrease
 		
@@ -102,10 +104,24 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	get_child(0).position.y = get_child(0).get_scale().y
 
 func _physics_process(delta): # "main"
+	print(slideJumpExtraVelocity)
 	#Engine.max_fps = 30 # in case you think thats needed
 	
 	# decrease slide extra speed
-	if is_on_floor()
+	#print("----------\\")
+	#print(sliding)
+	#print(crouched)
+	#print("----------/")
+	
+	# decrease slideJumpExtraVelocity when needed
+	if is_on_floor():
+		if sliding:
+			slideJumpExtraVelocity -= SJEVdecreaseL*delta
+		else:
+			slideJumpExtraVelocity -= SJEVdecrease*delta
+		
+		if slideJumpExtraVelocity < 1:
+			slideJumpExtraVelocity = 1
 	
 	# check for crouch
 	if Input.is_action_just_pressed("ctrl"):
