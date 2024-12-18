@@ -13,6 +13,7 @@ const groundPoundSpeed = -30
 var can_slide = true
 var can_crouch = true
 var can_gp = true
+var can_move = true
 
 var crouched = false
 var sliding = false
