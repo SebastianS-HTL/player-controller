@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rf2iv"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4hunf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ebpl"]
 albedo_texture = ExtResource("2_h62rp")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_7usf5"]
@@ -21,7 +21,7 @@ shape = SubResource("CapsuleShape3D_rf2iv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
 transform = Transform3D(-0.991199, 0, -0.132377, 0, 1, 0, 0.132377, 0, -0.991199, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_4hunf")
+material_override = SubResource("StandardMaterial3D_4ebpl")
 mesh = SubResource("CapsuleMesh_7usf5")
 
 [node name="Camera3D" type="Camera3D" parent="."]
