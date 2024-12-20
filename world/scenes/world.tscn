@@ -45,9 +45,11 @@ shape = SubResource("BoxShape3D_att35")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Pausemenu" parent="CanvasLayer" instance=ExtResource("3_rnr10")]
+top_level = true
 
 [node name="Debug" parent="CanvasLayer" instance=ExtResource("4_7po43")]
 process_mode = 3
+mouse_filter = 2
 script = ExtResource("5_fo6v3")
 
 [connection signal="body_shape_entered" from="deathborder" to="playerbody" method="_on_deathborder_body_shape_entered"]
