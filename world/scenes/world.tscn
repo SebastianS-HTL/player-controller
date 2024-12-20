@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://ccyk6o8xwgvom"]
+[gd_scene load_steps=11 format=3 uid="uid://ccyk6o8xwgvom"]
 
 [ext_resource type="PackedScene" uid="uid://cspwugujnubo6" path="res://player/scenes/playerbody.tscn" id="1_usqua"]
 [ext_resource type="PackedScene" uid="uid://un86sjtic6jc" path="res://platform/scenes/platform.tscn" id="2_opplc"]
-[ext_resource type="Script" path="res://world/scripts/fps.gd" id="3_qja8q"]
 [ext_resource type="PackedScene" uid="uid://tmldw1ul5axs" path="res://pause menu/scenes/pausemenu.tscn" id="3_rnr10"]
+[ext_resource type="PackedScene" uid="uid://b8hjhavrjd78m" path="res://debug/scenes/debug.tscn" id="4_7po43"]
+[ext_resource type="Script" path="res://debug/scripts/debug-show.gd" id="5_fo6v3"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_dhx0n"]
 
@@ -41,14 +42,12 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.27135, -0.499502)
 shape = SubResource("BoxShape3D_att35")
 
-[node name="FPS" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "fps:"
-script = ExtResource("3_qja8q")
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Pausemenu" parent="CanvasLayer" instance=ExtResource("3_rnr10")]
+
+[node name="Debug" parent="CanvasLayer" instance=ExtResource("4_7po43")]
+process_mode = 3
+script = ExtResource("5_fo6v3")
 
 [connection signal="body_shape_entered" from="deathborder" to="playerbody" method="_on_deathborder_body_shape_entered"]
