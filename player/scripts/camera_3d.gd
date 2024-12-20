@@ -1,7 +1,7 @@
 extends Camera3D
 
 const leanSpeed = 1.5
-const maxlean = 0.08
+const maxlean = 0.05
 
 func lean(LOR,delta):# true => left
 	var comingFrom = rotation.z < 0 # true => right
@@ -24,13 +24,10 @@ func lean(LOR,delta):# true => left
 
 func _process(delta):
 	if not Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right"):
-		print("no")
 		lean(null,delta)
 	
 	if Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right"):
-		print("l")
 		lean(true,delta)
 	
 	if not Input.is_action_pressed("ui_left") and Input.is_action_pressed("ui_right"):
-		print("r")
 		lean(false,delta)

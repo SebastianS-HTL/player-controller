@@ -67,9 +67,6 @@ func groundPound():
 		groundPounding = false
 
 func crouch(delta): #transitioning between crouched and uncrouched
-	#print("(" + str(direction.x * SPEED) + ", 0, " + str(direction.z * SPEED) + ")")
-	#print(velocity)
-	#print("-------------")
 	delta *= crouchSpeed
 	const camUp = 1.633
 	const camDown = 0.633
@@ -105,14 +102,7 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	get_child(0).position.y = get_child(0).get_scale().y
 
 func _physics_process(delta): # "main"
-	print(slideJumpExtraVelocity)
 	#Engine.max_fps = 30 # in case you think thats needed
-	
-	# decrease slide extra speed
-	#print("----------\\")
-	#print(sliding)
-	#print(crouched)
-	#print("----------/")
 	
 	# decrease slideJumpExtraVelocity when needed
 	if is_on_floor():

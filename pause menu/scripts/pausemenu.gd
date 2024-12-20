@@ -12,12 +12,12 @@ func toggle_pause():
 	if is_paused:
 		# Pause the game
 		get_tree().paused = true
-		self.visible = true
+		$AnimationPlayer.play("fade_in")
 		# Show and release the mouse
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		# Unpause the game
 		get_tree().paused = false
-		self.visible = false
+		$AnimationPlayer.play("fade_out")
 		# Lock the mouse back to the center
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
