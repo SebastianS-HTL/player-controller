@@ -1,12 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://b8hjhavrjd78m"]
+[gd_scene load_steps=15 format=3 uid="uid://b8hjhavrjd78m"]
 
+[ext_resource type="Script" path="res://debug/scripts/velocity.gd" id="1_mbtwa"]
 [ext_resource type="Script" path="res://debug/scripts/fps.gd" id="1_ulj0v"]
 [ext_resource type="Script" path="res://debug/scripts/speed.gd" id="2_r56k3"]
+[ext_resource type="Script" path="res://debug/scripts/direction.gd" id="2_v2jve"]
 [ext_resource type="Script" path="res://debug/scripts/jumps.gd" id="4_ovu43"]
 [ext_resource type="Script" path="res://debug/scripts/gpjm.gd" id="5_55i0o"]
 [ext_resource type="Script" path="res://debug/scripts/GPJM_timer.gd" id="5_b1x7s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8bjd3"]
+line_spacing = -6.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_1w33a"]
+line_spacing = -6.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_frbki"]
 line_spacing = -6.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_2ayux"]
@@ -34,9 +42,9 @@ grow_vertical = 2
 z_index = -1
 layout_mode = 0
 offset_right = 206.0
-offset_bottom = 142.0
+offset_bottom = 182.0
 mouse_filter = 2
-color = Color(0, 0, 0, 0.513726)
+color = Color(0, 0, 0, 0.682353)
 
 [node name="FPS" type="Label" parent="."]
 layout_mode = 0
@@ -46,11 +54,36 @@ text = "FPS: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_8bjd3")
 script = ExtResource("1_ulj0v")
 
+[node name="velocity" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "
+
+velocity: ERROR IN SCRIPT"
+label_settings = SubResource("LabelSettings_1w33a")
+script = ExtResource("1_mbtwa")
+
+[node name="direction" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "
+
+
+direction: ERROR IN SCRIPT"
+label_settings = SubResource("LabelSettings_frbki")
+script = ExtResource("2_v2jve")
+
 [node name="Speed" type="Label" parent="."]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
+
+
+
 speed: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_2ayux")
 vertical_alignment = 1
@@ -61,6 +94,11 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
+
+
+
+
 
 jumps: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_so87t")
@@ -73,6 +111,11 @@ offset_bottom = 23.0
 text = "
 
 
+
+
+
+
+
 GPJM: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_4dafu")
 script = ExtResource("5_55i0o")
@@ -82,6 +125,11 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
+
+
+
+
 
 
 
