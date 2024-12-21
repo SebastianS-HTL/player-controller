@@ -3,12 +3,17 @@ extends CharacterBody3D
 const gravity = Vector3(0,-9.8,0)
 var currentGravity = Vector3(0,-9.8,0)
 const gravityWallrunnning = Vector3(0,-0.4,0)
+const wallJumpStrength = 30
+var wallJumpForce = Vector3(0,0,0)
+
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
 var maxJumps = 2
 var jumps = 0
+var maxWallJumps = 3
+var wallJumps = 0
 
 var slideJumpExtraVelocity = 1 
 var SJEVincrease = 0.2
@@ -29,6 +34,8 @@ var can_crouch = true
 var can_gp = true
 var can_move = true
 var can_wallrun = true
+
+var crouchSpeed = 8
 
 var crouched = false
 var sliding = false
@@ -62,8 +69,6 @@ func handle_mouse_look():
 
 	# Reset mouse_delta to avoid repeating the motion
 	mouse_delta = Vector2.ZERO
-
-var crouchSpeed = 8
 
 func groundPound():
 	crouched = true
@@ -129,13 +134,35 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	get_child(0).position.y = get_child(0).get_scale().y
 
 func _physics_process(delta): # "main"
+	# Get the input direction and handle movement
+	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
+	if direction != Vector3.ZERO:
+		# Move in the given direction
+		velocity.x = direction.x * SPEED * slideJumpExtraVelocity
+		velocity.z = direction.z * SPEED * slideJumpExtraVelocity
+	else:
+		# Stop instantly when no input is given
+		velocity.x = 0
+		velocity.z = 0
+	
+	if restrictedMovement != Vector3(0,0,0):
+		velocity.x = 0
+		velocity.z = 0
+		velocity += restrictedMovement # need to keep gravity
+	
+	# ^ DONT TOUCH pls ^
+	# |                |
 	#Engine.max_fps = 30 # in case you think thats needed
 	
 	#try to do a wallrun
 	if is_on_wall() and not is_on_floor() and can_wallrun:
 		wallrunning = true
-		currentGravity = gravityWallrunnning
-		velocity.y = gravityWallrunnning.y
+		groundPoundJumpMultiplier = 1
+		if velocity.y < 0:
+			currentGravity = gravityWallrunnning
+			velocity.y = gravityWallrunnning.y
 	else:
 		wallrunning = false
 		currentGravity = gravity
@@ -174,37 +201,79 @@ func _physics_process(delta): # "main"
 		velocity += currentGravity * delta
 	else: # abuse to reset jumps when on ground, also reset the higher jump after groundpound
 		jumps = maxJumps
+		wallJumps = maxWallJumps
 		
 		if GPJMtimer >= GPJMresetTime:
 			groundPoundJumpMultiplier = 1
 			GPJMtimer = GPJMresetTime
 		else:
 			GPJMtimer += delta
-
-	# Handle jump
-	if Input.is_action_just_pressed("ui_accept") and jumps > 0:
-		jumps -= 1
-		velocity.y = JUMP_VELOCITY * groundPoundJumpMultiplier
-
-	# Get the input direction and handle movement
-	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-
-	if direction != Vector3.ZERO:
-		# Move in the given direction
-		velocity.x = direction.x * SPEED * slideJumpExtraVelocity
-		velocity.z = direction.z * SPEED * slideJumpExtraVelocity
-	else:
-		# Stop instantly when no input is given
-		velocity.x = 0
-		velocity.z = 0
 	
-	if restrictedMovement != Vector3(0,0,0):
-		velocity.x = 0
-		velocity.z = 0
-		velocity += restrictedMovement # need to keep gravity
+	# Handle jump
+	if Input.is_action_just_pressed("ui_accept"):
+		if wallrunning and wallJumps > 0:
+			wallJumps -= 1
+			
+			wallrunning = false
+			currentGravity = gravity
+			wallJumpForce = get_walljump_vector()
+			
+			slideJumpExtraVelocity += SJEVincrease
+			
+			velocity.y = JUMP_VELOCITY*1.5
+		elif not wallrunning and jumps > 0:
+			jumps -= 1
+			velocity.y = JUMP_VELOCITY * groundPoundJumpMultiplier
+			
+	
+	if wallJumpForce.length() > 0.5:
+		velocity += wallJumpForce
+		wallJumpForce /= 1.1
+	else:
+		wallJumpForce = Vector3(0,0,0)
 	
 	move_and_slide()
+
+func get_shortest_wall_vector(): # gets a vector to the wall, for doing a good walljump
+	
+	# yes this works because of ChatGPT, but I provided the entire plan of action and bugs since it could never come up with this solution.
+	var ray_count = 32
+	var max_distance = 5 #could be 0.6, but it becomes a problem if we at any point scale the player up, should not influence performence, its only 32 rays once
+	var space_state = get_world_3d().direct_space_state
+	var origin = global_transform.origin  # Player's position in the world
+	var shortest_vector = Vector3.ZERO
+	var shortest_distance = max_distance
+	
+	for i in range(ray_count):
+		var angle = i * (TAU / ray_count)  # TAU = 2 * PI
+		var direction = Vector3(cos(angle), 0, sin(angle)).normalized()
+		var ray_target = origin + direction * max_distance
+		
+		# Create ray query parameters
+		var query = PhysicsRayQueryParameters3D.new()
+		query.from = origin
+		query.to = ray_target
+		query.collision_mask = 2  # Only detect walls (collision layer 2)
+		
+		# Cast the ray
+		var result = space_state.intersect_ray(query)
+		
+		if result:
+			var distance = origin.distance_to(result.position)
+			if distance < shortest_distance:
+				shortest_distance = distance
+				shortest_vector = result.position - origin
+		else:
+			# If no collision, compare to max distance
+			if max_distance < shortest_distance:
+				shortest_vector = direction * max_distance
+	
+	return shortest_vector
+
+func get_walljump_vector(): #oh yeah
+	var wallVector = get_shortest_wall_vector()
+	
+	return wallVector * -1 * wallJumpStrength
 
 func _on_deathborder_body_shape_entered(body_rid, body, body_shape_index, local_shape_index): #reset position (respawn) when hitting a death barrier
 	if body.position == position:

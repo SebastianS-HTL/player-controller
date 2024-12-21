@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b8hjhavrjd78m"]
+[gd_scene load_steps=17 format=3 uid="uid://b8hjhavrjd78m"]
 
 [ext_resource type="Script" path="res://debug/scripts/velocity.gd" id="1_mbtwa"]
 [ext_resource type="Script" path="res://debug/scripts/fps.gd" id="1_ulj0v"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://debug/scripts/jumps.gd" id="4_ovu43"]
 [ext_resource type="Script" path="res://debug/scripts/gpjm.gd" id="5_55i0o"]
 [ext_resource type="Script" path="res://debug/scripts/GPJM_timer.gd" id="5_b1x7s"]
+[ext_resource type="Script" path="res://debug/scripts/wall_jumps.gd" id="6_dulcs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8bjd3"]
 line_spacing = -6.0
@@ -21,6 +22,9 @@ line_spacing = -6.0
 line_spacing = -6.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_so87t"]
+line_spacing = -6.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_siwq5"]
 line_spacing = -6.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_4dafu"]
@@ -42,7 +46,7 @@ grow_vertical = 2
 z_index = -1
 layout_mode = 0
 offset_right = 206.0
-offset_bottom = 182.0
+offset_bottom = 195.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.682353)
 
@@ -104,11 +108,28 @@ jumps: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_so87t")
 script = ExtResource("4_ovu43")
 
+[node name="wallJumps" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "
+
+
+
+
+
+
+
+wallJumps: ERROR IN SCRIPT"
+label_settings = SubResource("LabelSettings_siwq5")
+script = ExtResource("6_dulcs")
+
 [node name="GPJM" type="Label" parent="."]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
 
 
 
@@ -125,6 +146,7 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
 
 
 
