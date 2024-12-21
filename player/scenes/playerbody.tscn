@@ -13,7 +13,6 @@ albedo_texture = ExtResource("2_h62rp")
 
 [node name="playerbody" type="CharacterBody3D"]
 script = ExtResource("1_144kg")
-crouchSpeed = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

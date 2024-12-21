@@ -1,12 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8hjhavrjd78m"]
+[gd_scene load_steps=9 format=3 uid="uid://b8hjhavrjd78m"]
 
 [ext_resource type="Script" path="res://debug/scripts/fps.gd" id="1_ulj0v"]
 [ext_resource type="Script" path="res://debug/scripts/speed.gd" id="2_r56k3"]
+[ext_resource type="Script" path="res://debug/scripts/jump_height.gd" id="3_24ucu"]
+[ext_resource type="Script" path="res://debug/scripts/jumps.gd" id="4_ovu43"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8bjd3"]
 line_spacing = -6.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_2ayux"]
+line_spacing = -6.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_m0yjh"]
+line_spacing = -6.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_so87t"]
 line_spacing = -6.0
 
 [node name="Debug" type="Control"]
@@ -17,6 +25,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 142.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.513726)
 
 [node name="FPS" type="Label" parent="."]
 layout_mode = 0
@@ -31,15 +47,28 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
-Speed: ERROR IN SCRIPT"
+speed: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_2ayux")
 vertical_alignment = 1
 script = ExtResource("2_r56k3")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-z_index = -1
+[node name="jump-Height" type="Label" parent="."]
 layout_mode = 0
-offset_right = 128.0
-offset_bottom = 142.0
-mouse_filter = 2
-color = Color(0, 0, 0, 0.513726)
+offset_right = 40.0
+offset_bottom = 23.0
+text = "
+
+jump-height: ERROR IN SCRIPT"
+label_settings = SubResource("LabelSettings_m0yjh")
+script = ExtResource("3_24ucu")
+
+[node name="jumps" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "
+
+
+jumps: ERROR IN SCRIPT"
+label_settings = SubResource("LabelSettings_so87t")
+script = ExtResource("4_ovu43")

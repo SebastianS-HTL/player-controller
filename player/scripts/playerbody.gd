@@ -2,11 +2,19 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
+
+@export var maxJumps = 2
+var jumps = 0
+
 var slideJumpExtraVelocity = 1 
 var SJEVincrease = 0.2
 var SJEVdecrease = 1
 var SJEVdecreaseL = 0.5
+
 var groundPoundJumpMultiplier = 1
+var GPJMincrease = 0.2
+var GPJMresetTimer = 0.2
+
 var sensitivity = 0 # editable from outside
 var restrictedMovement = Vector3(0,0,0)
 const groundPoundSpeed = -30
@@ -48,7 +56,7 @@ func handle_mouse_look():
 	# Reset mouse_delta to avoid repeating the motion
 	mouse_delta = Vector2.ZERO
 
-@export var crouchSpeed = 1
+@export var crouchSpeed = 8
 
 func groundPound():
 	crouched = true
@@ -56,6 +64,8 @@ func groundPound():
 		restrictedMovement = Vector3(0,groundPoundSpeed,0)
 	
 	if is_on_floor():
+		groundPoundJumpMultiplier += GPJMincrease
+		
 		if Input.is_action_pressed("ctrl"):
 			if not Input.is_action_pressed("ui_up") and not Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_down"):
 				crouched = true
@@ -75,7 +85,7 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	const targetDown = 0.5
 	
 	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch or (Input.is_action_pressed("ctrl") and Input.is_action_just_pressed("ui_accept")):
-		if Input.is_action_just_pressed("ui_accept") and velocity != Vector3(0,velocity.y,0):
+		if Input.is_action_just_pressed("ui_accept") and direction != Vector3(0,direction.y,0):
 			slideJumpExtraVelocity += SJEVincrease
 		
 		crouched = false
@@ -137,10 +147,13 @@ func _physics_process(delta): # "main"
 	# Add gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	else: # abuse to reset jumps when on ground
+		jumps = maxJumps
 
 	# Handle jump
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+	if Input.is_action_just_pressed("ui_accept") and jumps > 0:
+		jumps -= 1
+		velocity.y = JUMP_VELOCITY * groundPoundJumpMultiplier
 
 	# Get the input direction and handle movement
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
