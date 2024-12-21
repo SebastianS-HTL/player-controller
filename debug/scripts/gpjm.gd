@@ -2,4 +2,4 @@ extends Label
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var player: CharacterBody3D = get_parent().get_parent().get_parent().get_child(0)
-	text = "\n\njump-height: " + str(player.groundPoundJumpMultiplier)
+	text = "\n\n\nspeed: " + str(player.groundPoundJumpMultiplier).substr(0,(str(round(player.groundPoundJumpMultiplier)).length()+4))

@@ -13,7 +13,8 @@ var SJEVdecreaseL = 0.5
 
 var groundPoundJumpMultiplier = 1
 var GPJMincrease = 0.2
-var GPJMresetTimer = 0.2
+var GPJMresetTime = 0.2
+var GPJMtimer = 0
 
 var sensitivity = 0 # editable from outside
 var restrictedMovement = Vector3(0,0,0)
@@ -65,6 +66,7 @@ func groundPound():
 	
 	if is_on_floor():
 		groundPoundJumpMultiplier += GPJMincrease
+		GPJMtimer = 0
 		
 		if Input.is_action_pressed("ctrl"):
 			if not Input.is_action_pressed("ui_up") and not Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_down"):
@@ -147,8 +149,14 @@ func _physics_process(delta): # "main"
 	# Add gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-	else: # abuse to reset jumps when on ground
+	else: # abuse to reset jumps when on ground, also reset the higher jump after groundpound
 		jumps = maxJumps
+		
+		if GPJMtimer >= GPJMresetTime:
+			groundPoundJumpMultiplier = 1
+			GPJMtimer = GPJMresetTime
+		else:
+			GPJMtimer += delta
 
 	# Handle jump
 	if Input.is_action_just_pressed("ui_accept") and jumps > 0:
