@@ -23,11 +23,19 @@ func lean(LOR,delta):# true => left
 			rotation.z = 0
 
 func _process(delta):
+	var player = get_parent()
+	
 	if not Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right"):
 		lean(null,delta)
 	
 	if Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right"):
-		lean(true,delta)
+		if player.wallrunning:
+			lean(false,delta)
+		else:
+			lean(true,delta)
 	
 	if not Input.is_action_pressed("ui_left") and Input.is_action_pressed("ui_right"):
-		lean(false,delta)
+		if player.wallrunning:
+			lean(true,delta)
+		else:
+			lean(false,delta)

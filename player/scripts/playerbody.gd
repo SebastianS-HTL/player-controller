@@ -2,12 +2,12 @@ extends CharacterBody3D
 
 const gravity = Vector3(0,-9.8,0)
 var currentGravity = Vector3(0,-9.8,0)
-const gravityWallrunnning = Vector3(0,-1,0)
+const gravityWallrunnning = Vector3(0,-0.4,0)
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
-@export var maxJumps = 2
+var maxJumps = 2
 var jumps = 0
 
 var slideJumpExtraVelocity = 1 
@@ -28,10 +28,12 @@ var can_slide = true
 var can_crouch = true
 var can_gp = true
 var can_move = true
+var can_wallrun = true
 
 var crouched = false
 var sliding = false
 var groundPounding = false
+var wallrunning = false
 
 var direction = Vector3(0,0,0)
 @onready var camera = $Camera3D
@@ -61,7 +63,7 @@ func handle_mouse_look():
 	# Reset mouse_delta to avoid repeating the motion
 	mouse_delta = Vector2.ZERO
 
-@export var crouchSpeed = 8
+var crouchSpeed = 8
 
 func groundPound():
 	crouched = true
@@ -130,10 +132,12 @@ func _physics_process(delta): # "main"
 	#Engine.max_fps = 30 # in case you think thats needed
 	
 	#try to do a wallrun
-	if is_on_wall() and not is_on_floor():
+	if is_on_wall() and not is_on_floor() and can_wallrun:
+		wallrunning = true
 		currentGravity = gravityWallrunnning
 		velocity.y = gravityWallrunnning.y
 	else:
+		wallrunning = false
 		currentGravity = gravity
 	
 	# decrease slideJumpExtraVelocity when needed
