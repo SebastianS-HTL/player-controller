@@ -1,5 +1,9 @@
 extends CharacterBody3D
 
+const gravity = Vector3(0,-9.8,0)
+var currentGravity = Vector3(0,-9.8,0)
+const gravityWallrunnning = Vector3(0,-1,0)
+
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
@@ -125,6 +129,13 @@ func crouch(delta): #transitioning between crouched and uncrouched
 func _physics_process(delta): # "main"
 	#Engine.max_fps = 30 # in case you think thats needed
 	
+	#try to do a wallrun
+	if is_on_wall() and not is_on_floor():
+		currentGravity = gravityWallrunnning
+		velocity.y = gravityWallrunnning.y
+	else:
+		currentGravity = gravity
+	
 	# decrease slideJumpExtraVelocity when needed
 	if is_on_floor():
 		if sliding:
@@ -156,7 +167,7 @@ func _physics_process(delta): # "main"
 	
 	# Add gravity
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity += currentGravity * delta
 	else: # abuse to reset jumps when on ground, also reset the higher jump after groundpound
 		jumps = maxJumps
 		

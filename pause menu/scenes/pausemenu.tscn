@@ -229,6 +229,7 @@ offset_top = -31.0
 grow_horizontal = 0
 grow_vertical = 0
 tooltip_text = "show debug info"
+button_pressed = true
 text = "debug info"
 
 [node name="ColorRect" type="ColorRect" parent="."]

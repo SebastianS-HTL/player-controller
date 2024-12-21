@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://un86sjtic6jc"]
+[gd_scene load_steps=10 format=3 uid="uid://un86sjtic6jc"]
 
 [ext_resource type="Texture2D" uid="uid://c55d33b885dsj" path="res://textures/dev_orange.png" id="1_ntton"]
 
@@ -22,9 +22,16 @@ uv1_triplanar = true
 [sub_resource type="BoxMesh" id="BoxMesh_5h2l8"]
 size = Vector3(1, 4, 9)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_obuy7"]
+size = Vector3(1, 23, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_on4yr"]
+size = Vector3(1, 23, 8)
+
 [node name="platform" type="StaticBody3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6394, 0, 9.34863)
 shape = SubResource("BoxShape3D_p8dif")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
@@ -102,3 +109,11 @@ shape = SubResource("BoxShape3D_jd8qp")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D10"]
 material_override = SubResource("StandardMaterial3D_c537l")
 mesh = SubResource("BoxMesh_5h2l8")
+
+[node name="CollisionShape3D11" type="CollisionShape3D" parent="."]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -9.28482, 10.7035, 24.6794)
+shape = SubResource("BoxShape3D_obuy7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D11"]
+material_override = SubResource("StandardMaterial3D_c537l")
+mesh = SubResource("BoxMesh_on4yr")
