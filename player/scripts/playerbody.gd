@@ -6,6 +6,7 @@ var slideJumpExtraVelocity = 1
 var SJEVincrease = 0.2
 var SJEVdecrease = 1
 var SJEVdecreaseL = 0.5
+var groundPoundJumpMultiplier = 1
 var sensitivity = 0 # editable from outside
 var restrictedMovement = Vector3(0,0,0)
 const groundPoundSpeed = -30
@@ -74,7 +75,7 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	const targetDown = 0.5
 	
 	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch or (Input.is_action_pressed("ctrl") and Input.is_action_just_pressed("ui_accept")):
-		if Input.is_action_just_pressed("ui_accept"):
+		if Input.is_action_just_pressed("ui_accept") and velocity != Vector3(0,velocity.y,0):
 			slideJumpExtraVelocity += SJEVincrease
 		
 		crouched = false
