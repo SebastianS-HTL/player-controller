@@ -68,6 +68,14 @@ func groundPound():
 		groundPoundJumpMultiplier += GPJMincrease
 		GPJMtimer = 0
 		
+		if direction != Vector3(0,direction.y,0): #makes it so we cant do GPJM-increasion when we move 
+			groundPoundJumpMultiplier = 1
+		else: #if we dont move, take something off speed, it isn´t depleting when doing this
+			if slideJumpExtraVelocity > 1:
+				slideJumpExtraVelocity /= 2
+			else:
+				slideJumpExtraVelocity = 1
+		
 		if Input.is_action_pressed("ctrl"):
 			if not Input.is_action_pressed("ui_up") and not Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_down"):
 				crouched = true
