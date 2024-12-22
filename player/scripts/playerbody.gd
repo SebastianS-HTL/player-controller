@@ -160,6 +160,7 @@ func _physics_process(delta): # "main"
 	if is_on_wall() and not is_on_floor() and can_wallrun:
 		wallrunning = true
 		groundPoundJumpMultiplier = 1
+		
 		if velocity.y < 0:
 			currentGravity = gravityWallrunnning
 			velocity.y = gravityWallrunnning.y
@@ -167,14 +168,17 @@ func _physics_process(delta): # "main"
 		wallrunning = false
 		currentGravity = gravity
 	
+	print(wallrunning)
+	
 	# decrease slideJumpExtraVelocity when needed
 	if is_on_floor():
-		if sliding:
+		if sliding :
 			slideJumpExtraVelocity -= SJEVdecreaseL*delta
 		else:
 			slideJumpExtraVelocity -= SJEVdecrease*delta
-		
-		if slideJumpExtraVelocity < 1:
+	elif wallrunning:
+		slideJumpExtraVelocity -= SJEVdecreaseL*delta
+	if slideJumpExtraVelocity < 1:
 			slideJumpExtraVelocity = 1
 	
 	# check for crouch
@@ -216,7 +220,7 @@ func _physics_process(delta): # "main"
 			
 			wallrunning = false
 			currentGravity = gravity
-			wallJumpForce = get_walljump_vector()
+			wallJumpForce = get_walljump_vector()*slideJumpExtraVelocity
 			
 			slideJumpExtraVelocity += SJEVincrease
 			
