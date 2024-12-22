@@ -20,9 +20,9 @@ var SJEVincrease = 0.2
 var SJEVdecrease = 1
 var SJEVdecreaseL = 0.5
 
+var groundPoundStart = 0
 var groundPoundJumpMultiplier = 1
-var GPJMincrease = 0.2
-var GPJMresetTime = 0.2
+var GPJMresetTime = 0.3
 var GPJMtimer = 0
 
 var sensitivity = 0 # editable from outside
@@ -76,7 +76,11 @@ func groundPound():
 		restrictedMovement = Vector3(0,groundPoundSpeed,0)
 	
 	if is_on_floor():
-		groundPoundJumpMultiplier += GPJMincrease
+		var upforce = sqrt(-2*currentGravity.y*(groundPoundStart - position.y + 1))
+		groundPoundJumpMultiplier = upforce/JUMP_VELOCITY
+		if groundPoundJumpMultiplier < 1:
+			groundPoundJumpMultiplier = 1
+		
 		GPJMtimer = 0
 		
 		if direction != Vector3(0,direction.y,0): #makes it so we cant do GPJM-increasion when we move 
@@ -191,6 +195,7 @@ func _physics_process(delta): # "main"
 				sliding = true
 		else:
 			if can_gp:
+				groundPoundStart = position.y
 				groundPounding = true
 	
 	# trigger groundpound when needed
