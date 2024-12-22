@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://b8hjhavrjd78m"]
+[gd_scene load_steps=19 format=3 uid="uid://b8hjhavrjd78m"]
 
 [ext_resource type="Script" path="res://debug/scripts/velocity.gd" id="1_mbtwa"]
 [ext_resource type="Script" path="res://debug/scripts/fps.gd" id="1_ulj0v"]
 [ext_resource type="Script" path="res://debug/scripts/speed.gd" id="2_r56k3"]
 [ext_resource type="Script" path="res://debug/scripts/direction.gd" id="2_v2jve"]
 [ext_resource type="Script" path="res://debug/scripts/jumps.gd" id="4_ovu43"]
+[ext_resource type="Script" path="res://debug/scenes/gravity.gd" id="4_pbovw"]
 [ext_resource type="Script" path="res://debug/scripts/gpjm.gd" id="5_55i0o"]
 [ext_resource type="Script" path="res://debug/scripts/GPJM_timer.gd" id="5_b1x7s"]
 [ext_resource type="Script" path="res://debug/scripts/wall_jumps.gd" id="6_dulcs"]
@@ -16,6 +17,9 @@ line_spacing = -6.0
 line_spacing = -6.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_frbki"]
+line_spacing = -6.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_gasik"]
 line_spacing = -6.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_2ayux"]
@@ -46,7 +50,7 @@ grow_vertical = 2
 z_index = -1
 layout_mode = 0
 offset_right = 206.0
-offset_bottom = 195.0
+offset_bottom = 209.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.682353)
 
@@ -79,11 +83,24 @@ direction: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_frbki")
 script = ExtResource("2_v2jve")
 
-[node name="Speed" type="Label" parent="."]
+[node name="gravity" type="Label" parent="."]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
+
+
+gravity: ERROR IN SCRIPT"
+label_settings = SubResource("LabelSettings_gasik")
+script = ExtResource("4_pbovw")
+
+[node name="speed" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "
+
 
 
 
@@ -104,6 +121,7 @@ text = "
 
 
 
+
 jumps: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_so87t")
 script = ExtResource("4_ovu43")
@@ -113,6 +131,7 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
 
 
 
@@ -137,6 +156,7 @@ text = "
 
 
 
+
 GPJM: ERROR IN SCRIPT"
 label_settings = SubResource("LabelSettings_4dafu")
 script = ExtResource("5_55i0o")
@@ -146,6 +166,7 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "
+
 
 
 
