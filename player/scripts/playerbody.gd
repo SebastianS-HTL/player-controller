@@ -6,9 +6,17 @@ const gravityWallrunnning = Vector3(0,-0.4,0)
 const wallJumpStrength = 30
 var wallJumpForce = Vector3(0,0,0)
 
-
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
+
+const maxDashes = 3
+const dashRegenTime = 1.0
+var dashRegenTimer = 0
+var dashTimer = 0
+var dashes = maxDashes
+var dashTime = 0.5
+var dashing = false
+var dashDirection = Vector3.ZERO
 
 var maxJumps = 2
 var jumps = 0
@@ -34,6 +42,7 @@ var can_crouch = true
 var can_gp = true
 var can_move = true
 var can_wallrun = true
+var can_dash = true
 
 var crouchSpeed = 8
 
@@ -172,8 +181,6 @@ func _physics_process(delta): # "main"
 		wallrunning = false
 		currentGravity = gravity
 	
-	print(wallrunning)
-	
 	# decrease slideJumpExtraVelocity when needed
 	if is_on_floor():
 		if sliding :
@@ -241,7 +248,33 @@ func _physics_process(delta): # "main"
 	else:
 		wallJumpForce = Vector3(0,0,0)
 	
+	# trigger dash
+	if Input.is_action_just_pressed("shift") and dashes > 0 and can_dash and not dashing:
+		dash()
+	 
+	# dash logic implementation
+	if dashing:
+		velocity.y = 0
+		restrictedMovement *= 0.9
+		if restrictedMovement.length() < 10:
+			dashing = false
+			dashTimer = 0
+			restrictedMovement = Vector3.ZERO
+	
+	if dashes < maxDashes:
+		dashRegenTimer += delta
+		
+		if dashRegenTimer > dashRegenTime:
+			dashRegenTimer = 0
+			dashes += 1
+	
 	move_and_slide()
+
+func dash():
+	dashing = true
+	dashes -= 1
+	restrictedMovement = direction.normalized() * SPEED * 10
+	dashTimer = 0
 
 func get_shortest_wall_vector(): # gets a vector to the wall, for doing a good walljump
 	
