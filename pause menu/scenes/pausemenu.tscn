@@ -201,8 +201,8 @@ uppercase = true
 [node name="FOV_slider" type="HSlider" parent="VBoxContainer"]
 z_index = 1
 layout_mode = 2
-min_value = 2.0
-max_value = 170.0
+min_value = 11.0
+max_value = 169.0
 step = 0.01
 value = 90.0
 script = ExtResource("3_5hrir")

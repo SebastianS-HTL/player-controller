@@ -29,6 +29,7 @@ var SJEVdecrease = 1
 var SJEVdecreaseL = 0.5
 
 var groundPoundStart = 0
+const groundPoundImpactMinHeight = 2
 var groundPoundJumpMultiplier = 1
 var GPJMresetTime = 0.3
 var GPJMtimer = 0
@@ -69,7 +70,7 @@ func handle_mouse_look():
 	# Apply mouse movement to camera and body
 	var rotation_x = -mouse_delta.y * sensitivity
 	var rotation_y = -mouse_delta.x * sensitivity
-
+	
 	# Clamp vertical rotation to prevent flipping
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x + rotation_x, -90, 90)
 	
@@ -85,6 +86,9 @@ func groundPound():
 		restrictedMovement = Vector3(0,groundPoundSpeed,0)
 	
 	if is_on_floor():
+		if groundPoundStart - position.y > groundPoundImpactMinHeight:
+			camera.screenShake(0.1,0.6)
+		
 		var upforce = sqrt(-2*currentGravity.y*(groundPoundStart - position.y + 1))
 		groundPoundJumpMultiplier = upforce/JUMP_VELOCITY
 		if groundPoundJumpMultiplier < 1:
@@ -118,10 +122,9 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	const targetUp = 1
 	const targetDown = 0.5
 	
-	if (Input.is_action_just_released("ctrl") and not groundPounding) or not can_crouch or (Input.is_action_pressed("ctrl") and Input.is_action_just_pressed("ui_accept")):
-		if Input.is_action_just_pressed("ui_accept") and direction != Vector3(0,direction.y,0):
+	if (not Input.is_action_pressed("ctrl") and not groundPounding) or not can_crouch or ((Input.is_action_pressed("ctrl") and Input.is_action_just_pressed("ui_accept"))):
+		if Input.is_action_just_pressed("ui_accept") and direction != Vector3(0,direction.y,0) and not wallrunning:
 			slideJumpExtraVelocity += SJEVincrease
-		
 		crouched = false
 		sliding = false
 	
@@ -234,8 +237,6 @@ func _physics_process(delta): # "main"
 			currentGravity = gravity
 			wallJumpForce = get_walljump_vector()*slideJumpExtraVelocity
 			
-			slideJumpExtraVelocity += SJEVincrease
-			
 			velocity.y = JUMP_VELOCITY*1.5
 		elif not wallrunning and jumps > 0:
 			jumps -= 1
@@ -252,6 +253,12 @@ func _physics_process(delta): # "main"
 	if Input.is_action_just_pressed("shift") and dashes > 0 and can_dash and not dashing:
 		dash()
 	 
+	if camera.extraFOV < 0:
+		camera.extraFOV += delta*15
+		if camera.extraFOV > 0:
+			camera.extraFOV = 0
+	
+	
 	# dash logic implementation
 	if dashing:
 		velocity.y = 0
@@ -275,12 +282,13 @@ func dash():
 	dashes -= 1
 	restrictedMovement = direction.normalized() * SPEED * 10
 	dashTimer = 0
+	camera.extraFOV = -5
 
 func get_shortest_wall_vector(): # gets a vector to the wall, for doing a good walljump
 	
-	# yes this works because of ChatGPT, but I provided the entire plan of action and bugs since it could never come up with this solution.
+	# yes this works because of ChatGPT, no, without me this would do shit.
 	var ray_count = 32
-	var max_distance = 5 #could be 0.6, but it becomes a problem if we at any point scale the player up, should not influence performence, its only 32 rays once
+	var max_distance = 0.8 #could be 0.6, but it becomes a problem if we at any point scale the player up, should not influence performence, its only 32 rays once
 	var space_state = get_world_3d().direct_space_state
 	var origin = global_transform.origin  # Player's position in the world
 	var shortest_vector = Vector3.ZERO
@@ -311,6 +319,26 @@ func get_shortest_wall_vector(): # gets a vector to the wall, for doing a good w
 				shortest_vector = direction * max_distance
 	
 	return shortest_vector
+
+func can_uncrouch():
+	var max_distance = 2
+	var space_state = get_world_3d().direct_space_state
+	var origin = global_transform.origin
+
+	var upward_vector = Vector3(0, 1, 0) * max_distance
+	var ray_target = origin + upward_vector
+
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = origin
+	query.to = ray_target
+	query.collision_mask = 2  # Detect walls only
+	# Perform raycast
+	var result = space_state.intersect_ray(query)
+	if result:
+		print(origin.distance_to(result.position))
+	else:
+		print("ZERRO")
+	return not result
 
 func get_walljump_vector(): #oh yeah
 	var wallVector = get_shortest_wall_vector()

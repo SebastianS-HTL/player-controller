@@ -21,10 +21,13 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		mouse_delta = event.relative
 
+func _process(delta):
+	handle_mouse_look()
 
 func handle_mouse_look():
 	# Apply mouse movement to camera and body
 	sensitivity = get_parent().get_child(0).sensitivity
+	
 	var rotation_x = -mouse_delta.y * sensitivity
 	var rotation_y = -mouse_delta.x * sensitivity
 	
@@ -37,7 +40,6 @@ func handle_mouse_look():
 	mouse_delta = Vector2.ZERO
 
 func _physics_process(delta): # "main"
-	#print(mouse_delta)
 	if lastToggle != toggle:
 		position = get_parent().get_child(0).position
 		rotation = get_parent().get_child(0).rotation
@@ -47,7 +49,6 @@ func _physics_process(delta): # "main"
 		get_child(0).set_fov(get_parent().get_child(0).get_child(1).fov)
 	
 	if toggle:
-		handle_mouse_look()
 		get_child(0).current = true
 		# Get the input direction and handle movement
 		var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -68,9 +69,9 @@ func _physics_process(delta): # "main"
 			SPEED = 5
 		
 		if Input.is_action_pressed("ui_accept"):
-			velocity.y = 5
+			velocity.y = SPEED
 		elif Input.is_action_pressed("shift"):
-			velocity.y = -5
+			velocity.y = -SPEED
 		else:
 			velocity.y = 0
 		
