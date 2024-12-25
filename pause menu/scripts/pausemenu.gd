@@ -8,6 +8,9 @@ func _input(event: InputEvent):
 		toggle_pause()
 
 func toggle_pause():
+	if freeCamToggle:
+		freeCamToggle = false
+	
 	is_paused = !is_paused
 	if is_paused:
 		# Pause the game
@@ -21,3 +24,32 @@ func toggle_pause():
 		$AnimationPlayer.play("fade_out")
 		# Lock the mouse back to the center
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+var freeCamToggle = null
+var timer = 0
+
+func _process(delta: float) -> void:
+	if get_child(1).is_pressed():
+		get_parent().get_child(1).visible = not freeCamToggle
+	
+	if Input.is_action_just_pressed("F") and get_child(1).is_pressed():
+		if is_paused and visible:
+			return
+			
+		toggle_pause()
+		freeCamToggle = is_paused
+	
+	if freeCamToggle == true:
+		timer = 0
+		visible = false
+		get_parent().get_parent().get_child(5).toggle = true
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	elif freeCamToggle == false:
+		visible = false
+		get_parent().get_parent().get_child(5).toggle = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		freeCamToggle = null
+	else:
+		timer += delta
+		if timer > 0.5:
+			visible = true
