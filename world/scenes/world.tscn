@@ -31,7 +31,7 @@ data = PackedVector3Array(16.9681, 2.8097, 7.8077, 16.5455, 2.8097, 7.0263, 16.3
 [node name="world" type="Node3D"]
 
 [node name="playerbody" parent="." instance=ExtResource("1_usqua")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20327, 7.29853, -19.5548)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20327, 7.29853, -21.8513)
 
 [node name="platform" parent="." instance=ExtResource("2_opplc")]
 

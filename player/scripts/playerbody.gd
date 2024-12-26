@@ -24,9 +24,9 @@ var maxWallJumps = 3
 var wallJumps = 0
 
 var slideJumpExtraVelocity = 1 
-var SJEVincrease = 0.2
+var SJEVincrease = 0.15
 var SJEVdecrease = 1
-var SJEVdecreaseL = 0.5
+var SJEVdecreaseL = 0.25
 
 var groundPoundStart = 0
 const groundPoundImpactMinHeight = 2
