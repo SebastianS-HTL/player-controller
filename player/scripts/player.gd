@@ -24,9 +24,9 @@ var maxWallJumps = 3
 var wallJumps = 0
 
 var slideJumpExtraVelocity = 1 
-var SJEVincrease = 0.15
-var SJEVdecrease = 1
-var SJEVdecreaseL = 0.25
+var SJEVincrease = 0.3
+var SJEVdecrease = 1.5
+var SJEVdecreaseL = 0.2
 
 var groundPoundStart = 0
 const groundPoundImpactMinHeight = 2
@@ -56,15 +56,20 @@ var direction = Vector3(0,0,0)
 @onready var camera = $Camera3D
 var mouse_delta = Vector2.ZERO
 
+var isDebugging = true #are you wanting to use debug keys for testing
+
+func _physics_process(delta): # "main"
+	handle_movement(delta)
+
+func _process(delta):
+	handle_mouse_look()
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		mouse_delta = event.relative
-
-func _process(delta):
-	handle_mouse_look()
 
 func handle_mouse_look():
 	# Apply mouse movement to camera and body
@@ -124,7 +129,10 @@ func crouch(delta): #transitioning between crouched and uncrouched
 	
 	if (not Input.is_action_pressed("ctrl") and not groundPounding) or not can_crouch or ((Input.is_action_pressed("ctrl") and Input.is_action_just_pressed("ui_accept"))):
 		if Input.is_action_just_pressed("ui_accept") and direction != Vector3(0,direction.y,0) and not wallrunning:
-			slideJumpExtraVelocity += SJEVincrease
+			if sliding:
+				slideJumpExtraVelocity += SJEVincrease
+			else:
+				slideJumpExtraVelocity += SJEVincrease*0.5
 		crouched = false
 		sliding = false
 	
@@ -212,9 +220,6 @@ func handle_movement(delta: float):
 	if groundPounding:
 		groundPound()
 	
-	# trigger crouch function
-	crouch(delta)
-	
 	# Add gravity
 	if not is_on_floor():
 		velocity += currentGravity * delta
@@ -240,8 +245,14 @@ func handle_movement(delta: float):
 			velocity.y = JUMP_VELOCITY*1.5
 		elif not wallrunning and jumps > 0:
 			jumps -= 1
-			velocity.y = JUMP_VELOCITY * groundPoundJumpMultiplier
 			
+			if sliding:
+				velocity.y = JUMP_VELOCITY*0.8
+			else:
+				velocity.y = JUMP_VELOCITY * groundPoundJumpMultiplier
+	
+	# trigger crouch function
+	crouch(delta)
 	
 	if wallJumpForce.length() > 0.5:
 		velocity += wallJumpForce
@@ -275,9 +286,6 @@ func handle_movement(delta: float):
 			dashes += 1
 	
 	move_and_slide()
-
-func _physics_process(delta): # "main"
-	handle_movement(delta)
 
 func dash():
 	dashing = true
@@ -348,5 +356,5 @@ func get_walljump_vector(): #oh yeah
 	return wallVector * -1 * wallJumpStrength
 
 func _on_deathborder_body_shape_entered(body_rid, body, body_shape_index, local_shape_index): #reset position (respawn) when hitting a death barrier
-	if body.position == position:
+	if body == self:
 		position = Vector3(0,2,0)
